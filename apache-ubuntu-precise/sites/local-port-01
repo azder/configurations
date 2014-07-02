@@ -1,0 +1,35 @@
+
+Listen 8080
+
+<VirtualHost *:8080>
+
+    #ServerName  site-01
+    #ServerAlias 192.168.0.1
+
+    DocumentRoot "/var/sites/site-01"
+
+    <Directory "/var/sites/site-01">
+        Options FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+
+	ErrorLog ${APACHE_LOG_DIR}/error-site-01.log
+
+	# Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+
+	LogLevel warn
+	CustomLog ${APACHE_LOG_DIR}/access-site-01.log combined
+
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+
+	<IfModule mpm_itk_module>
+		AssignUserId user user
+	</IfModule>
+
+</VirtualHost>

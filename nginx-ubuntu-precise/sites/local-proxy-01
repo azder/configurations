@@ -1,0 +1,24 @@
+server {
+
+    listen 80;
+
+    server_name localhost;
+
+    location /site-01/ {
+        proxy_pass http://localhost:8080/site-01/;
+    }
+
+    location /site-02 {
+        include /etc/nginx/proxy_params;
+        proxy_pass http://localhost:8080/site-02/;
+    }
+
+    location /replacement-path {
+        include /etc/nginx/proxy_params;
+        proxy_cookie_path /original-path/ /replacement-path/;
+        proxy_pass http://localhost:8080/original-path/;
+    }
+
+    error_log /var/log/nginx/error.log warn;
+
+}

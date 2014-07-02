@@ -1,0 +1,33 @@
+Listen 8081
+
+<VirtualHost *:8081>
+
+    #ServerName  site-01
+    #ServerAlias 192.168.0.1
+
+    DocumentRoot "/Users/user/sites/port-8081"
+
+    <Directory "/Users/user/sites/port-8081">
+        Options FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+
+        # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+        LogLevel info
+
+        ErrorLog /private/var/log/apache2/error-port-8081.log
+        CustomLog /private/var/log/apache2/access-port-8081.log combined
+
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+
+        <IfModule mpm_itk_module>
+                AssignUserId user user
+        </IfModule>
+
+</VirtualHost>
