@@ -8,7 +8,7 @@ server {
     root /var/sites/hdc-admin/;
     index index.html index.htm;
 
-    client_max_body_size 40m;
+    #client_max_body_size 40m;
 
     ssl_certificate     /etc/apache2/ssl/apache.crt;
     ssl_certificate_key /etc/apache2/ssl/apache.key;
@@ -19,22 +19,11 @@ server {
     ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
     ssl_prefer_server_ciphers on;
 
-    location /recaptcha/ {
-        proxy_pass https://www.google.com/recaptcha/;
-    }
-
-    location /hpp-facade {
+    location /original-path {
         include /etc/nginx/proxy_params;
-        proxy_pass https://local-be:8443/hpp-facade/;
-        #proxy_pass http://127.0.0.1:8083/hpp-facade/;
-        #proxy_pass https://remote-be:8443/hpp-facade/;
+        proxy_cookie_path /original-path/ /replacement-path/;
+        proxy_pass https://local-be:8443/original-path/;
         #proxy_read_timeout 1s;
-    }
-
-    location /goranb-facade {
-        include /etc/nginx/proxy_params;
-        proxy_cookie_path /hpp-facade/ /goranb-facade/;
-        proxy_pass https://goranb:8444/hpp-facade/;
     }
 
     location /redmine {
